@@ -3,6 +3,7 @@
 ## HDU List
 
 | No. |   Name | Type   |   Cards |  Dimensions |
+|---|---|---|---|---|
 | 0  |PRIMARY       | PrimaryHDU   |    6  | () |
 |  1 | RAW           | CompImageHDU  |  164  | (6000, 6132) |
 |  2 | POSITIONERTABLE    | BinTableHDU |    49 |  500R x 19C |
