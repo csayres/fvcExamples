@@ -3,7 +3,7 @@
 ## HDU List
 
 | No. |   Name | Type   |   Cards |  Dimensions | Description |
-|---|---|---|---|---|
+|---|---|---|---|---|---|
 | 0  |PRIMARY       | PrimaryHDU   |    6  | () | N/A |
 |  1 | RAW           | CompImageHDU  |  164  | (6000, 6132) | FVC image |
 |  2 | POSITIONERTABLE    | BinTableHDU |    49 |  500R x 19C | positioner-specific calibration table (copied from fps_calibrations) |
