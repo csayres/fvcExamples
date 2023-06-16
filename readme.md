@@ -11,9 +11,9 @@
 |  4 | FIDUCIALCOORDS    | BinTableHDU |    27 |  60R x 8C  | fiducial-specific calibration table (copied from fps_calibrations)
 |  5 | POSITIONERTABLEMEAS    |  BinTableHDU  |  197 |  500R x 93C | positioner-specific fvc measurements |
 |  6 | FIDUCIALCOORDSMEAS    | BinTableHDU  |  113 |  60R x 51C | fiducial-specific fvc measurements |
-|  7 | FIBERDATA     | BinTableHDU   |  81  | 1500R x 35C | unsure |
+|  7 | FIBERDATA     | BinTableHDU   |  81  | 1500R x 35C | unsure, used by jaeger? |
 |  8 | POSANGLES     | BinTableHDU   |  25  | 500R x 7C  | positioner-commanded/reported alpha/beta angles |
-|  9 | CENTROIDS     | BinTableHDU   |  85  | 558R x 37C | source extractor centroid detections and measurements |
-| 10 | OFFSETS       | BinTableHDU   |  45  | 500R x 17C | unsure |
+|  9 | CENTROIDS     | BinTableHDU   |  85  | 558R x 37C | sep (source extractor) centroid detections and measurements |
+| 10 | OFFSETS       | BinTableHDU   |  45  | 500R x 17C | unsure, used by jaeger? |
 
-here lives the data model for proccessed fvc images.
+POSITIONERTABLE, WOKCOORDS, and FIDUCIALCOORDS are copies of the tables included in the [fps_calibrations](https://www.github.com/sdss/fps_calibrations) product.
