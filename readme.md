@@ -1,6 +1,7 @@
 # Data Model
 
 ## HDU List
+Note: Generally FIDUCIALCOORDSMEAS and POSITIONERTABLEMEAS below will be the most interesting tables to look at.  They contain merged information from several other tables in the HDU List.  They contrain all centroid measurement data and fvc measurement data matched to specific robots or fiducials.
 
 | No. |   Name | Type   |   Cards |  Dimensions | Description |
 |---|---|---|---|---|---|
@@ -35,13 +36,13 @@ POSANGLES contains the commanded alpha/beta angles and the reported alpha/beta a
 
 
 ### CENTROIDS Table
-CENTROIDS is a table containing all the automatically detected and measured sources in the image.  The majority of the columns are described in the [sep](https://sep.readthedocs.io/en/v1.1.x/) documentation specifically the returned "objects" array [here](https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html).  Several extra columns are added to this table as part of FVC image processing: [x|y]Nudge, [x|y]Rot, [x|y]NudgeRot, and centroidID.  A subset of column descriptions are:
+CENTROIDS is a table containing all the automatically detected and measured sources in the image.  The majority of the columns are described in the [sep](https://sep.readthedocs.io/en/v1.1.x/) documentation specifically the returned "objects" array [here](https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html).  Several extra columns are added to this table as part of FVC image processing: [x|y]Nudge, [x|y]Rot, [x|y]NudgeRot, and centroidID.  A **subset** of column descriptions are:
 
 | Column Name | Description |
 |---|---|
 |npix| number of pixels contributing to centroid |
 |x| x pixel location of centroid |
-|y|  pixel location of centroid |
+|y| y pixel location of centroid |
 |x2| x 2nd moment of centroid (psf spread)|
 |y2| y 2nd moment of centroid (psf spread)|
 |peak| peak counts found in centroid |
@@ -53,4 +54,32 @@ CENTROIDS is a table containing all the automatically detected and measured sour
 |xNudgeRot| x coordinate after rotating xyNudge coordinates by instrument rotator angle (IPA) for centroid to robot/fiducial matching |
 |yNudgeRot| y coordinate after rotating xyNudge coordinates by instrument rotator angle (IPA) for centroid to robot/fiducial matching |
 | centroidID | unique id for each detected centroid |
+
+### FIDUCIALCOORDSMEAS Table
+FIDUCIALCOORDSMEAS is a table merged from FIDUCIALCOORDS and CENTROIDS after matching was performed between CCD spots and specific fiducials.  In addition to the columns described in CENTROIDS, an additional **subset** of new columns are:
+
+| Column Name | Description |
+|---|---|
+|xWok| the expected x wok location (mm) of the fiducial (CMM measured)|
+|yWok| the expected y wok location (mm) of the fiducial (CMM measured)|
+|xWokMeas| the FVC-measured x wok (mm) location of the fiducial after all fitting is performed|
+|yWokMeas| the FVC-measured y wok (mm) location of the fiducial after all fitting is performed|
+|wokErr| the distance between expected and FVC-measured location in wok coordinates (mm) |
+|wokErrWarn| boolean value true if wokErr is greater than the max threshold for a valid match between a centroid and a fiducial (usually indicating a dead fiducial fiber) |
+
+### POSITIONERTABLEMEAS Table
+POSITIONERTABLEMEAS is a table merged from WOKCOORDS, POSITIONERTABLE, POSANGLES and CENTROIDS after matching was performed between CCD spots and specific fiducials.  Columns from all these tables are included, and an additional **subset** of new columns are:
+
+| Column Name | Description |
+|---|---|
+|xWokReportMetrology| the expected x wok location (mm) of the metrology fiber given the robot's reported alpha/beta angles|
+|yWokReportMetrology| the expected y wok location (mm) of the metrology fiber given the robot's reported alpha/beta angles|
+|xWokMeasMetrology| FVC-measured x wok location (mm) of the metrology fiber after all fitting is performed|
+|yWokMeasMetrology| FVC-measured y wok location (mm) of the metrology fiber after all fitting is performed|
+|alphaMeas| robot's FVC-measured alpha angle derived from the FVC-measured location of the metrology fiber |
+|betaMeas| robot's FVC-measured beta angle derived from the FVC-measured location of the metrology fiber |
+|xWokAdjMetrology| static extra added distortion in x fit from dithers (only zbplus and zbplus2 at APO)|
+|yWokAdjMetrology| static extra added distortion in y fit from dithers (only zbplus and zbplus2 at APO)|
+|wokErrWarn| boolean. True if there was a problem matching this robot to a metrology fiber spot.  Likely indicating either a large robot motion error, centroid missmatch, or a dead fiber.|
+
 
