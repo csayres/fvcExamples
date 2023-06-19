@@ -20,6 +20,7 @@ FIBERDATA and OFFSETS are tables used by jaeger for configuration building and f
 
 POSITIONERTABLE, WOKCOORDS, and FIDUCIALCOORDS are copies of the tables included in the [fps_calibrations](https://www.github.com/sdss/fps_calibrations) product.  They describe things like where holes are located in the wok, the alpha/beta zeropoints and armlengths for each robot, the locations of science and metrology fibers for each robot, and the locations of the fiducials in the wok, etc.  They are copied into each FVC image for reprocessing purposes because the calibration files can change overtime (eg when robots are swapped, or when better robot calibrations are fit).
 
+### POSANGLES Table
 POSANGLES contains the commanded alpha/beta angles and the reported alpha/beta angles for each robot.  Column descriptions are:
 
 | Column Name | Description |
@@ -33,6 +34,23 @@ POSANGLES contains the commanded alpha/beta angles and the reported alpha/beta a
 | startBeta | starting beta position of robot before motion|
 
 
+### CENTROIDS Table
+CENTROIDS is a table containing all the automatically detected and measured sources in the image.  The majority of the columns are described in the [sep](https://sep.readthedocs.io/en/v1.1.x/) documentation specifically the returned "objects" array [here](https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html).  Several extra columns are added to this table as part of FVC image processing: [x|y]Nudge, [x|y]Rot, [x|y]NudgeRot, and centroidID.  A subset of column descriptions are:
 
-CENTROIDS is a table containing all the automatically detected and measured sources in the image.  The majority of the columns are described in the [sep](https://sep.readthedocs.io/en/v1.1.x/) documentation specifically the returned "objects" array [here](https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html).
+| Column Name | Description |
+|---|---|
+|npix| number of pixels contributing to centroid |
+|x| x pixel location of centroid |
+|y|  pixel location of centroid |
+|x2| x 2nd moment of centroid (psf spread)|
+|y2| y 2nd moment of centroid (psf spread)|
+|peak| peak counts found in centroid |
+|flux| total flux counted in centroid |
+|xNudge| corrected x pixel location from nudge model|
+|yNudge| corrected y pixel location from nudge model|
+|xRot| x coordinate after rotating xy coordinates by instrument rotator angle (IPA) for centroid to robot/fiducial matching |
+|yRot| y coordinate after rotating xy coordinates by instrument rotator angle (IPA) for centroid to robot/fiducial matching |
+|xNudgeRot| x coordinate after rotating xyNudge coordinates by instrument rotator angle (IPA) for centroid to robot/fiducial matching |
+|yNudgeRot| y coordinate after rotating xyNudge coordinates by instrument rotator angle (IPA) for centroid to robot/fiducial matching |
+| centroidID | unique id for each detected centroid |
 
