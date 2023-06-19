@@ -16,9 +16,23 @@
 |  9 | CENTROIDS     | BinTableHDU   |  85  | 558R x 37C | sep (source extractor) centroid detections and measurements |
 | 10 | OFFSETS       | BinTableHDU   |  45  | 500R x 17C | unsure, used by jaeger? |
 
-FIBERDATA and OFFSETS are tables used by jaeger for configuration building and fvc-looping.
+FIBERDATA and OFFSETS are tables used by jaeger for configuration building and fvc-looping.  They aren't described here.
 
-POSITIONERTABLE, WOKCOORDS, and FIDUCIALCOORDS are copies of the tables included in the [fps_calibrations](https://www.github.com/sdss/fps_calibrations) product.  They describe things like where holes are located in the wok, the alpha/beta zeropoints and armlengths for each robot, the locations of science and metrology fibers for each robot, and the locations of the fiducials in the wok.  They are copied into each FVC image for reprocessing purposes, because the calibration files can change overtime.
+POSITIONERTABLE, WOKCOORDS, and FIDUCIALCOORDS are copies of the tables included in the [fps_calibrations](https://www.github.com/sdss/fps_calibrations) product.  They describe things like where holes are located in the wok, the alpha/beta zeropoints and armlengths for each robot, the locations of science and metrology fibers for each robot, and the locations of the fiducials in the wok, etc.  They are copied into each FVC image for reprocessing purposes because the calibration files can change overtime (eg when robots are swapped, or when better robot calibrations are fit).
 
-CENTROIDS is a table containing all the automatically detected and measured sources in the image.  The majority of the columns are described in the [sep](https://sep.readthedocs.io/en/v1.1.x/) documentation specifically the returned "objects" array [here](https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html)
+POSANGLES contains the commanded alpha/beta angles and the reported alpha/beta angles for each robot.  Column descriptions are:
+
+| Column Name | Description |
+|---|---|
+|positionerID| unique id for robot |
+| alphaReport | alpha angle as reported by robot encoders |
+| betaReport | beta angle as reported by robot encoders |
+| cmdAlpha | commanded alpha angle for robot |
+| cmdBeta | commanded beta angle for robot |
+| startAlpha | starting alpha position of robot before motion |
+| startBeta | starting beta position of robot before motion|
+
+
+
+CENTROIDS is a table containing all the automatically detected and measured sources in the image.  The majority of the columns are described in the [sep](https://sep.readthedocs.io/en/v1.1.x/) documentation specifically the returned "objects" array [here](https://sep.readthedocs.io/en/v1.0.x/api/sep.extract.html).
 
