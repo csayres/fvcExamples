@@ -12,14 +12,33 @@ Note: Generally FIDUCIALCOORDSMEAS and POSITIONERTABLEMEAS below will be the mos
 |  4 | FIDUCIALCOORDS    | BinTableHDU |    27 |  60R x 8C  | fiducial-specific calibration table (copied from fps_calibrations)
 |  5 | POSITIONERTABLEMEAS    |  BinTableHDU  |  197 |  500R x 93C | positioner-specific fvc measurements |
 |  6 | FIDUCIALCOORDSMEAS    | BinTableHDU  |  113 |  60R x 51C | fiducial-specific fvc measurements |
-|  7 | FIBERDATA     | BinTableHDU   |  81  | 1500R x 35C | unsure, used by jaeger? |
+|  7 | FIBERDATA     | BinTableHDU   |  81  | 1500R x 35C | designed (intended) locations for fibers in wok coordinates |
 |  8 | POSANGLES     | BinTableHDU   |  25  | 500R x 7C  | positioner-commanded/reported alpha/beta angles |
 |  9 | CENTROIDS     | BinTableHDU   |  85  | 558R x 37C | sep (source extractor) centroid detections and measurements |
-| 10 | OFFSETS       | BinTableHDU   |  45  | 500R x 17C | unsure, used by jaeger? |
-
-FIBERDATA and OFFSETS are tables used by jaeger for configuration building and fvc-looping.  They aren't described here.
+| 10 | OFFSETS       | BinTableHDU   |  45  | 500R x 17C | robot arm offsets commanded through fvc loop iterations (not described further) |
 
 POSITIONERTABLE, WOKCOORDS, and FIDUCIALCOORDS are copies of the tables included in the [fps_calibrations](https://www.github.com/sdss/fps_calibrations) product.  They describe things like where holes are located in the wok, the alpha/beta zeropoints and armlengths for each robot, the locations of science and metrology fibers for each robot, and the locations of the fiducials in the wok, etc.  They are copied into each FVC image for reprocessing purposes because the calibration files can change overtime (eg when robots are swapped, or when better robot calibrations are fit).
+
+### FIBERDATA Table
+This table is generated for the desired location of each fiber (and corresponding arm angles) for each robot.  A **subset** of column descriptions are:
+
+| Column Name | Description |
+|---|---|
+|positioner_id| unique id for roboot|
+|hole_id| wok hole in which robot is installed|
+|fibre_type| "BOSS", "APOGEE", or "Metrology" |
+|assigned| Boolean, whether or not this fiber corresponds to an astro target |
+|on_target| Boolean, whether or not this fiber made it to its target |
+|disabled| Boolean, whether or not this robot was disabled |
+|offline| Boolean, whether or not this robot is offline |
+|decollided| Boolean, whether or not this robot was forced off its target due to a kaiju collision |
+|dubious| Boolean, large error between expected and measured centroid (probably missmatched) |
+|xwok| desired x wok location for fiber|
+|ywok| desired y wok location for fiber|
+|alpha| desired alpha angle for robot |
+|beta| desired alpha angle for robot|
+|xwok_measured| FVC-measured x wok location for fiber|
+|ywok_measured| FVC-measured y wok location for fiber|
 
 ### POSANGLES Table
 POSANGLES contains the commanded alpha/beta angles and the reported alpha/beta angles for each robot.  Column descriptions are:
@@ -78,12 +97,12 @@ POSITIONERTABLEMEAS is a table merged from WOKCOORDS, POSITIONERTABLE, POSANGLES
 |yWokMeasMetrology| FVC-measured y wok location (mm) of the metrology fiber after all fitting is performed|
 |alphaMeas| robot's FVC-measured alpha angle derived from the FVC-measured location of the metrology fiber |
 |betaMeas| robot's FVC-measured beta angle derived from the FVC-measured location of the metrology fiber |
-|xWokAdjMetrology| static extra added distortion in x fit from dithers (only zbplus and zbplus2 at APO)|
-|yWokAdjMetrology| static extra added distortion in y fit from dithers (only zbplus and zbplus2 at APO)|
+|xWokAdjMetrology| static extra added distortion dx fit from dithers (only zbplus and zbplus2 at APO)|
+|yWokAdjMetrology| static extra added distortion dy fit from dithers (only zbplus and zbplus2 at APO)|
 |wokErrWarn| boolean. True if there was a problem matching this robot to a metrology fiber spot.  Likely indicating either a large robot motion error, centroid missmatch, or a dead fiber.|
 
 ## FITS Headers
-Below is an example of the full table of headers for an FVC image:
+The table below is an example of a **subset** of headers from an FVC image.  Many telescope and site specific headers have been removed from the table to slighly de-clutter.  Note in the table below it seems that LED1 and LED2 headers are not reporting correctly, because they indicate zero power yet metrology fibers are infact lit.
 
 |Name| Value | Comment|
 |---|---|---|
@@ -116,35 +135,7 @@ BINX     |                    1 | Binning in X |
 BINY     |                    1 | Binning in Y |
 GAIN     |                 0.58 | The CCD gain [e-|ADUs] |
 READNOIS |                 10.3 | The CCD read noise [ADUs] |
-PIXELSC  |               0.2214 | Scale of unbinned pixel on sky [arcsec|pix] |
-WCSAXES  |                    2 | Number of coordinate axes |
-CRPIX1   |                  0.0 | Pixel coordinate of reference point |
-CRPIX2   |                  0.0 | Pixel coordinate of reference point |
-CDELT1   |                  1.0 | Coordinate increment at reference point |
-CDELT2   |                  1.0 | Coordinate increment at reference point |
-CRVAL1   |                  0.0 | Coordinate value at reference point |
-CRVAL2   |                  0.0 | Coordinate value at reference point |
-LATPOLE  |                 90.0 | [deg] Native latitude of celestial pole |
-MJDREF   |                  0.0 | [d] MJD of fiducial time |
 OBSERVAT | 'APO     '           | Observatory |
-OBJSYS   | 'Mount   '           | The TCC objSys |
-RA       | 'NaN     '           | Telescope is not tracking the sky |
-DEC      | 'NaN     '           | Telescope is not tracking the sky |
-RADEG    | 'NaN     '           | Telescope is not tracking the sky |
-DECDEG   | 'NaN     '           | Telescope is not tracking the sky |
-SPA      | 'NaN     '           | Telescope is not tracking the sky |
-ROTTYPE  | 'Mount   '           | Rotator request type |
-ROTPOS   |                285.0 | Rotator request type |
-BOREOFFX |                  0.0 | TCC Boresight offset, deg |
-BOREOFFY |                  0.0 | TCC Boresight offset, deg |
-ARCOFFX  |                  0.0 | TCC ObjArcOff, deg |
-ARCOFFY  |                  0.0 | TCC ObjArcOff, deg |
-CALOFFX  |                  0.0 | TCC CalibOff, deg |
-CALOFFY  |                  0.0 | TCC CalibOff, deg |
-CALOFFR  |                  0.0 | TCC CalibOff, deg |
-GUIDOFFX |                  0.0 | TCC GuideOff, deg |
-GUIDOFFY |                  0.0 | TCC GuideOff, deg |
-GUIDOFFR |                  0.0 | TCC GuideOff, deg |
 AZ       |           121.000015 | Azimuth axis pos. (approx, deg) |
 ALT      |    70.00001399999999 | Altitude axis pos. (approx, deg) |
 IPA      |           285.000014 | Rotator axis pos. (approx, deg) |
@@ -166,8 +157,8 @@ CAPPLIED |                    F | FVC correction applied |
 TEMPRTD2 |                14.92 | Wok temperature 1 |
 TEMPRTD3 |                14.82 | Wok temperature 2 |
 TEMPT3   |    3.692434461500902 | Wok temperature 3 |
-LED1     |                  0.0 | LED 1 power (half of metrology fibers) |
-LED2     |                  0.0 | LED 2 power (other half of metrology fibers) |
+LED1     |                  0.0 | LED 1 power (half of metrology/fiducial fibers) |
+LED2     |                  0.0 | LED 2 power (other half of metrology/fiducial fibers) |
 LED3     |                  0.0 | Not hooked up |
 LED4     |                  0.0 | Not hooked up |
 FVC_NWRN |                    4 | number of robots out of measurement spec |
