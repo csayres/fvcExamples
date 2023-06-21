@@ -155,7 +155,7 @@ def plotWokCorrections(refit=True):
 
     q = plt.quiver(xyWok[:,0], xyWok[:,1], dx, dy, angles="xy", units="xy", scale=0.05, width=1)
     plt.quiverkey(q,0.9,0.9,0.5,"500 micron",coordinates="figure")
-    plt.title("Zhao-Burge polyfit from fiducials (zbplus2 dynamic distortion model)")
+    plt.title("Zhao-Burge polyfit from fiducials (dynamic distortion model)")
     plt.savefig("fig_3_b.png", dpi=250)
 
     # apply the model correction
@@ -170,7 +170,7 @@ def plotWokCorrections(refit=True):
 
     q = plt.quiver(xyWok[:,0], xyWok[:,1], _ptm.xWokAdjMetrology, _ptm.yWokAdjMetrology, angles="xy", units="xy", scale=0.002, width=1)
     plt.quiverkey(q,0.9,0.9,0.050,"50 micron",coordinates="figure")
-    plt.title("Zhao-Burge polyfit from dither residuals (static distortion model)")
+    plt.title("Zhao-Burge polyfit from dither residuals (zbplus2 static distortion model)")
     plt.savefig("fig_3_c.png", dpi=250)
 
 
