@@ -5,7 +5,27 @@ The script [examples.py](./examples.py) generates the figures shown below, provi
 The script does not perform any centroid to fiducial/robot matching and instead relies on those matches being provided in either POSITIONERTABLEMEAS or FIDUCIALCOORDSMEAS binary tables which are described further below.  The script does not show how the static "nudge" model is fit, but it does show how to visualize its effect.  Additionally the script doesn't show how the static zbplus2 distortion correction is fit, but it does show how to visualze it.  The script does show how the Zhao-Burge polynomial is fit to fiducial locations.
 
 Generally this script is a paired down version of routines that are provided in [coordio.transforms](https://github.com/sdss/coordio/blob/master/src/coordio/transforms.py), specifically the FVCTransformAPO and FVCTransformLCO classes.
+
+## examples.plotDetections()
+This function creates the following two figures.  It simply plots the FVC image data and shows how to discover which spots are fiducial spots and which spots are metrology fiber spots.
 ![Figure 1a](fig_1_a.png)
+![Figure 1b](fig_1_b.png)
+
+## examples.plotNudgeCorrection()
+This function creates the following figure, showing how the nudge model moves centroids as a function of CCD location.
+![Figure 2a](fig_2_a.png)
+
+## examples.plotWokCorrections(refit=True)
+If refit==True, then the CCD to wok transform is fit from fiducial spots using a SimilarityTransform followed by a Zhao-Burge distortion correction.  If refit==False, the transform coefficients are read from the image header instead.  This function creates the following figures.  The first figure shows the result of the SimilarityTransform (translation/rotation/scale), the second figure shows the additional Zhao-Burge polynomial correction, the third figure shows the final distortion adjustment (zbplus2) which was derived from dither observations at APO.
+
+[Figure 3a](fig_3_a.png)
+[Figure 3b](fig_3_b.png)
+[Figure 3c](fig_3_c.png)
+
+## examples.plotFiberPositionError()
+This function plots the difference between desired location of the metrology fibers in wok coordinates (based on the design for the field), and the FVC-measured location of the metrology fibers.  The FVC-loop iteratively minimizes these errors.
+
+[Figure 4a](fig_4_a.png)
 
 # proc-fimg Data Model
 
