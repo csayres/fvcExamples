@@ -1,5 +1,6 @@
-# Data Model
+# proc-fimg Data Model
 
+Note: some documentation is ommitted.  Included are the pieces that might be relevant for FVC image and modeling analysis.
 ## HDU List
 Note: Generally FIDUCIALCOORDSMEAS and POSITIONERTABLEMEAS below will be the most interesting tables to look at.  They contain merged information from several other tables in the HDU List.  They contrain all centroid measurement data and fvc measurement data matched to specific robots or fiducials.
 
