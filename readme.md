@@ -4,7 +4,7 @@ The script [examples.py](./examples.py) generates the figures shown below, provi
 
 The script does not perform any centroid to fiducial/robot matching and instead relies on those matches being provided in either POSITIONERTABLEMEAS or FIDUCIALCOORDSMEAS binary tables which are described further below.  The script does not show how the static "nudge" model is fit, but it does show how to visualize its effect.  Additionally the script doesn't show how the static zbplus2 distortion correction is fit, but it does show how to visualze it.  The script does show how the Zhao-Burge polynomial is fit to fiducial locations.
 
-Generally this script is a paired down version of routines that are provided in [coordio.transforms](https://github.com/sdss/coordio/blob/master/src/coordio/transforms.py), specifically the FVCTransformAPO and FVCTransformLCO classes.
+Generally this script is a pared down version of routines that are provided in [coordio.transforms](https://github.com/sdss/coordio/blob/master/src/coordio/transforms.py), specifically the FVCTransformAPO and FVCTransformLCO classes.
 
 ## examples.plotDetections()
 This function creates the following two figures.  It simply plots the FVC image data and shows how to discover which spots are fiducial spots and which spots are metrology fiber spots.  Coordio uses [sep](https://sep.readthedocs.io/en/v1.1.x/) to detect and measure centroids.  The script relies on sep tables provided in the HDUList, rather than re-extracting.
