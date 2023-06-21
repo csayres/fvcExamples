@@ -123,16 +123,11 @@ def plotWokCorrections(refit=True):
 
 
     # begin with "good" xyNudge CCD locations
-    # of metrology fibers
+    # of robot metrology fibers
     _ptm = ptm[ptm["wokErrWarn"] == False]
     x = _ptm["xNudge"]
     y = _ptm["yNudge"]
     xyNudge = numpy.array([x,y]).T
-
-    # extract the best fit translation/rotation/scale
-    # that maps xyNudge coordinates to xyWok coordinates
-    # based on fits to fiducial locations in the image
-
 
     # convert from nudge to (undistorted) wok coordinates
     xyWok = simTrans(xyNudge)
