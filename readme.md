@@ -7,7 +7,7 @@ The script does not perform any centroid to fiducial/robot matching and instead 
 Generally this script is a paired down version of routines that are provided in [coordio.transforms](https://github.com/sdss/coordio/blob/master/src/coordio/transforms.py), specifically the FVCTransformAPO and FVCTransformLCO classes.
 
 ## examples.plotDetections()
-This function creates the following two figures.  It simply plots the FVC image data and shows how to discover which spots are fiducial spots and which spots are metrology fiber spots.
+This function creates the following two figures.  It simply plots the FVC image data and shows how to discover which spots are fiducial spots and which spots are metrology fiber spots.  Coordio uses [sep](https://sep.readthedocs.io/en/v1.1.x/) to detect and measure centroids.  The script relies on sep tables provided in the HDUList, rather than re-extracting.
 ![Figure 1a](fig_1_a.png)
 ![Figure 1b](fig_1_b.png)
 
