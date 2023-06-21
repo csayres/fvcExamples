@@ -1,3 +1,7 @@
+## Overview
+
+![Figure 1a](fig_1_a.png)
+
 # proc-fimg Data Model
 
 Note: some documentation is ommitted.  Included are the pieces that might be relevant for FVC image and modeling analysis.
