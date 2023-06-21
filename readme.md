@@ -16,7 +16,7 @@ This function creates the following figure, showing how the nudge model moves ce
 ![Figure 2a](fig_2_a.png)
 
 ## examples.plotWokCorrections(refit=True)
-If refit==True, then the CCD to wok transform is fit from fiducial spots using a SimilarityTransform followed by a Zhao-Burge distortion correction.  If refit==False, the transform coefficients are read from the image header instead.  This function creates the following figures.  The first figure shows the result of the [SimilarityTransform](https://scikit-image.org/docs/stable/api/skimage.transform.html#skimage.transform.SimilarityTransform) (translation/rotation/scale), the second figure shows the additional Zhao-Burge polynomial correction, the third figure shows the final distortion adjustment (zbplus2) which was derived from dither observations at APO.
+If refit==True, then the CCD to wok transform is fit from fiducial spots using a [SimilarityTransform](https://scikit-image.org/docs/stable/api/skimage.transform.html#skimage.transform.SimilarityTransform) followed by a Zhao-Burge distortion correction.  If refit==False, the transform coefficients are read from the image header instead.  This function creates the following figures.  The first figure shows the result of the SimilarityTransform (translation/rotation/scale), the second figure shows the additional Zhao-Burge polynomial correction, the third figure shows the final distortion adjustment (zbplus2) which was derived from dither observations at APO.
 
 ![Figure 3a](fig_3_a.png)
 ![Figure 3b](fig_3_b.png)
