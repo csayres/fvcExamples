@@ -185,8 +185,8 @@ def plotFiberPositionError():
 
     xExpect = fd["xwok"]
     yExpect = fd["ywok"]
-    xMeas = fd["xwok_measured"]  # note should match "xWokMeasMetrology" in POSITIONERTABLE
-    yMeas = fd["ywok_measured"]  # note should match "xWokMeasMetrology" in POSITIONERTABLE
+    xMeas = fd["xwok_measured"]  # note should match "xWokMeasMetrology" in POSITIONERTABLEMEAS
+    yMeas = fd["ywok_measured"]  # note should match "xWokMeasMetrology" in POSITIONERTABLEMEAS
     dx = xExpect - xMeas
     dy = yExpect - yMeas
 
